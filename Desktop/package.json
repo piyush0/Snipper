@@ -1,0 +1,16 @@
+{
+  "name": "snipper-electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.6.6",
+    "path": "^0.12.7",
+    "url": "^0.11.0"
+  }
+}
