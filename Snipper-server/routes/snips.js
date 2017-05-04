@@ -4,7 +4,7 @@
 const express = require('express');
 
 const app = express.Router();
-
+const db = require('../mongohandler');
 
 app.post('/addsnip', function (req, res) {
     let snip = {
