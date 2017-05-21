@@ -35,7 +35,7 @@ function createNewSnipWindow(snip) {
         protocol: 'file:',
         slashes: true
     }));
-
+    snipWindow.webContents.openDevTools();
     editReadySnip = snip;
 }
 
