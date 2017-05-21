@@ -22,18 +22,15 @@ function insertSnip(snip, done) {
     let snips = myDb.collection('snips');
 
     snips.insertOne(snip, function (err, result) {
-        console.log(result.ops);
         done(result.ops);
     })
 }
 
 function findSnip(snipId, done) {
     let snips = myDb.collection('snips');
-    console.log(snipId + "from db");
     snips.findOne({
         _id: ObjectId(snipId.toString())
     }, function (err, result) {
-        console.log(result + "from db");
         done(result);
     })
 }
@@ -49,10 +46,7 @@ function allSnips(done) {
 function updateSnip(snipId, snip, done) {
     let snips = myDb.collection('snips');
 
-
     snips.find({}).toArray(function (err, result) {
-
-
         snips.updateOne({
             _id: ObjectId(snipId.toString())
         }, snip, function (err, result) {

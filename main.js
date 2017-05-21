@@ -11,7 +11,6 @@ let snipWindow = null;
 let editReadySnip = null;
 
 app.on('ready', function () {
-
     mainWindow = new BrowserWindow({
         height: 600,
         width: 800
@@ -29,15 +28,13 @@ ipcMain.on('get-snips', function () {
     sendAllSnips()
 });
 
-function createNewSnipWin(snip) {
+function createNewSnipWindow(snip) {
     snipWindow = new BrowserWindow({
         height: 600,
         width: 800
     });
 
-
     snipWindow.loadURL(url.format({
-
         pathname: path.join(__dirname, 'public_static', 'snip.html'),
         protocol: 'file:',
         slashes: true
@@ -47,13 +44,10 @@ function createNewSnipWin(snip) {
 }
 
 ipcMain.on('new-snip', function () {
-    createNewSnipWin();
+    createNewSnipWindow();
 });
 
 ipcMain.on('delete-snip', function (event, arg) {
-    console.log(arg);
-
-
     db.deleteSnip(arg, function () {
         sendAllSnips()
     })
@@ -67,22 +61,20 @@ ipcMain.on('edit-ready', function (event, arg) {
             id: editReadySnip._id.toString(),
             language: editReadySnip.language,
             code: editReadySnip.code
-        }
+        };
         win.webContents.send('edit', editReadyResult);
     }
-})
+});
 
 ipcMain.on('edit-snip', function (event, arg) {
     db.findSnip(arg, function (result) {
-        console.log(result);
-        createNewSnipWin(result)
+        createNewSnipWindow(result)
     })
-})
+});
 
 ipcMain.on('new-snip-add', function (event, arg) {
 
     let snip = JSON.parse(arg);
-    console.log(snip);
 
     if (snip.id) {
         db.updateSnip(snip.id, {
@@ -100,7 +92,6 @@ ipcMain.on('new-snip-add', function (event, arg) {
             snipWindow.close();
         })
     }
-
 });
 
 function sendAllSnips() {
