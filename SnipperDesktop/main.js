@@ -2,24 +2,26 @@
 
 const {app, BrowserWindow, ipcMain} = require('electron');
 
-const path = require('path')
-const url = require('url')
+const path = require('path');
+const url = require('url');
 const db = require('./mongohandler');
 let mainWindow = null;
-let newSnipWindow = null;
-let ObjectID = require('mongodb').ObjectID
+let snipWindow = null;
 
 let editReadySnip = null;
 
 app.on('ready', function () {
-
 
     mainWindow = new BrowserWindow({
         height: 600,
         width: 800
     });
 
-    mainWindowLoad();
+    mainWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'public_static', 'index.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
 });
 
 
@@ -28,13 +30,13 @@ ipcMain.on('get-snips', function () {
 });
 
 function createNewSnipWin(snip) {
-    newSnipWindow = new BrowserWindow({
+    snipWindow = new BrowserWindow({
         height: 600,
         width: 800
     });
 
 
-    newSnipWindow.loadURL(url.format({
+    snipWindow.loadURL(url.format({
 
         pathname: path.join(__dirname, 'public_static', 'snip.html'),
         protocol: 'file:',
@@ -89,26 +91,17 @@ ipcMain.on('new-snip-add', function (event, arg) {
             code: snip.code
         }, function () {
             sendAllSnips();
-            newSnipWindow.close()
+            snipWindow.close()
         });
     }
     else {
         db.insertSnip(snip, function () {
             sendAllSnips();
-            newSnipWindow.close();
+            snipWindow.close();
         })
     }
 
 });
-
-function mainWindowLoad() {
-    mainWindow.loadURL(url.format({
-
-        pathname: path.join(__dirname, 'public_static', 'index.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-}
 
 function sendAllSnips() {
     db.allSnips(function (snips) {
