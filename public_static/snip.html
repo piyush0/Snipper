@@ -2,15 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="snip.js"></script>
+    <title> Snipper </title>
+
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 100px;
+            right: 10px;
+            bottom: 10px;
+            left: 10px;
+        }
+    </style>
 </head>
 <body>
 
 <input id="title" placeholder="title">
 <input id="language" placeholder="language">
-<input id="code" placeholder="code">
-<button id="btn_add_snip">Add</button>
+<div id="editor"></div>
+<button id="btn_add_snip"> Save</button>
+
+<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    const editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
+</script>
+<script src="snip.js"></script>
 
 </body>
 </html>
