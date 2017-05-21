@@ -1,6 +1,6 @@
 # Snipper
 
-##### This is a simple desktop app that lets you save your most frequently used Code Snippets with syntax highlighting.
+#### This is a simple desktop app that lets you save your most frequently used Code Snippets with syntax highlighting.
 
 ## Technologies involved
 
