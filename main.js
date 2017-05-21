@@ -24,10 +24,6 @@ app.on('ready', function () {
 });
 
 
-ipcMain.on('get-snips', function () {
-    sendAllSnips()
-});
-
 function createNewSnipWindow(snip) {
     snipWindow = new BrowserWindow({
         height: 600,
@@ -42,6 +38,27 @@ function createNewSnipWindow(snip) {
 
     editReadySnip = snip;
 }
+
+function sendAllSnips() {
+    db.allSnips(function (snips) {
+        let result = [];
+        for (let i = 0; i < snips.length; i++) {
+            result.push({
+                title: snips[i].title,
+                language: snips[i].language,
+                id: snips[i]._id.toString(),
+                code: snips[i].code
+            })
+        }
+        mainWindow.webContents.send('all-snips', result);
+    })
+}
+
+/* IPC's */
+
+ipcMain.on('get-snips', function () {
+    sendAllSnips()
+});
 
 ipcMain.on('new-snip', function () {
     createNewSnipWindow();
@@ -93,18 +110,3 @@ ipcMain.on('new-snip-add', function (event, arg) {
         })
     }
 });
-
-function sendAllSnips() {
-    db.allSnips(function (snips) {
-        let result = [];
-        for (let i = 0; i < snips.length; i++) {
-            result.push({
-                title: snips[i].title,
-                language: snips[i].language,
-                id: snips[i]._id.toString(),
-                code: snips[i].code
-            })
-        }
-        mainWindow.webContents.send('all-snips', result);
-    })
-}
