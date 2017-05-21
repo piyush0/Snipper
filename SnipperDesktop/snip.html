@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="snip.js"></script>
 </head>
 <body>
 
@@ -11,21 +12,5 @@
 <input id="code" placeholder="code">
 <button id="btn_add_snip">Add</button>
 
-<script>
-    const {ipcRenderer} = require('electron')
-    var btn_add_snip = document.getElementById("btn_add_snip");
-    var title = document.getElementById("title");
-    var language = document.getElementById("language");
-    var code = document.getElementById("code");
-    btn_add_snip.onclick = function () {
-        var snip = { 
-            "title": title.value,
-            "language": language.value,
-            "code" : code.value
-        };
-        console.log(snip);
-        ipcRenderer.send('new-snip-add', JSON.stringify(snip))
-    }
-</script>
 </body>
 </html>

@@ -9,6 +9,8 @@ let mainWindow = null;
 let newSnipWindow = null;
 let ObjectID = require('mongodb').ObjectID
 
+let editReadySnip = null;
+
 app.on('ready', function () {
 
 
@@ -16,7 +18,7 @@ app.on('ready', function () {
         height: 600,
         width: 800
     });
-    mainWindow.webContents.openDevTools()
+
     mainWindowLoad();
 });
 
@@ -25,20 +27,25 @@ ipcMain.on('get-snips', function () {
     sendAllSnips()
 });
 
-
-ipcMain.on('new-snip', function () {
+function createNewSnipWin(snip) {
     newSnipWindow = new BrowserWindow({
         height: 600,
         width: 800
     });
-    newSnipWindow.webContents.openDevTools();
+
+
     newSnipWindow.loadURL(url.format({
 
         pathname: path.join(__dirname, 'snip.html'),
         protocol: 'file:',
         slashes: true
-    }))
+    }));
 
+    editReadySnip = snip;
+}
+
+ipcMain.on('new-snip', function () {
+    createNewSnipWin();
 });
 
 ipcMain.on('delete-snip', function (event, arg) {
@@ -46,21 +53,52 @@ ipcMain.on('delete-snip', function (event, arg) {
 
 
     db.deleteSnip(arg, function () {
-       sendAllSnips()
+        sendAllSnips()
     })
 });
 
+ipcMain.on('edit-ready', function (event, arg) {
+    let win = event.sender;
+    if (editReadySnip) {
+        let editReadyResult = {
+            title: editReadySnip.title,
+            id: editReadySnip._id.toString(),
+            language: editReadySnip.language,
+            code: editReadySnip.code
+        }
+        win.webContents.send('edit', editReadyResult);
+    }
+})
+
+ipcMain.on('edit-snip', function (event, arg) {
+    db.findSnip(arg, function (result) {
+        console.log(result);
+        createNewSnipWin(result)
+    })
+})
 
 ipcMain.on('new-snip-add', function (event, arg) {
 
     let snip = JSON.parse(arg);
     console.log(snip);
 
-    db.insertSnip(snip, function () {
-        sendAllSnips();
-        newSnipWindow.close()
+    if(snip.id){
+        db.updateSnip(snip.id, {
+            title: snip.title,
+            language: snip.language,
+            code: snip.code
+        }, function () {
+            sendAllSnips();
+            newSnipWindow.close()
+        });
+    }
+    else{
+        db.insertSnip(snip, function () {
+            sendAllSnips();
+            newSnipWindow.close();
+        })
+    }
 
-    })
 });
 
 function mainWindowLoad() {

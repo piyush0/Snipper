@@ -49,7 +49,10 @@ function allSnips(done) {
 function updateSnip(snipId, snip, done) {
     let snips = myDb.collection('snips');
 
+
     snips.find({}).toArray(function (err, result) {
+
+
         snips.updateOne({
             _id: ObjectId(snipId.toString())
         }, snip, function (err, result) {
