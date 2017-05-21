@@ -1,6 +1,6 @@
 'use strict';
 
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, Menu, MenuItem} = require('electron');
 
 const path = require('path');
 const url = require('url');
@@ -11,6 +11,7 @@ let snipWindow = null;
 let editReadySnip = null;
 
 app.on('ready', function () {
+
     mainWindow = new BrowserWindow({
         height: 600,
         width: 800
@@ -21,6 +22,8 @@ app.on('ready', function () {
         protocol: 'file:',
         slashes: true
     }));
+
+    require('./menu')
 });
 
 
@@ -110,3 +113,7 @@ ipcMain.on('new-snip-add', function (event, arg) {
         })
     }
 });
+
+
+module.exports = {createNewSnipWindow, sendAllSnips}
+
