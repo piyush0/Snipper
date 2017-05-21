@@ -36,7 +36,7 @@ function createNewSnipWin(snip) {
 
     newSnipWindow.loadURL(url.format({
 
-        pathname: path.join(__dirname, 'snip.html'),
+        pathname: path.join(__dirname, 'public_static', 'snip.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -82,7 +82,7 @@ ipcMain.on('new-snip-add', function (event, arg) {
     let snip = JSON.parse(arg);
     console.log(snip);
 
-    if(snip.id){
+    if (snip.id) {
         db.updateSnip(snip.id, {
             title: snip.title,
             language: snip.language,
@@ -92,7 +92,7 @@ ipcMain.on('new-snip-add', function (event, arg) {
             newSnipWindow.close()
         });
     }
-    else{
+    else {
         db.insertSnip(snip, function () {
             sendAllSnips();
             newSnipWindow.close();
@@ -104,7 +104,7 @@ ipcMain.on('new-snip-add', function (event, arg) {
 function mainWindowLoad() {
     mainWindow.loadURL(url.format({
 
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: path.join(__dirname, 'public_static', 'index.html'),
         protocol: 'file:',
         slashes: true
     }));
