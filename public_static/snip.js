@@ -3,17 +3,10 @@
  */
 const {ipcRenderer} = require('electron')
 
-let btn_add_snip;
-let title;
-let code;
-let language;
-let id;
-
-
 function newSnip() {
-    title = document.getElementById("title");
-    language = document.getElementById("language");
-    code = ace.edit("editor");
+    let title = document.getElementById("title");
+    let language = document.getElementById("language");
+    let code = ace.edit("editor");
 
     const snip = {
         "title": title.value,

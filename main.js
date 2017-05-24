@@ -43,8 +43,8 @@ function registerShortcut() {
 
 function newSnip() {
     snipWindow = new BrowserWindow({
-        height: 320,
-        width: 600,
+        height: 600,
+        width: 800,
         frame: false,
 
     });
