@@ -1,6 +1,6 @@
 'use strict';
 
-const {app, BrowserWindow, ipcMain, Menu, MenuItem} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 
 const path = require('path');
 const url = require('url');
