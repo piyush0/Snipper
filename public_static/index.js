@@ -35,9 +35,10 @@ ipcRenderer.on('all-snips', function (event, data) {
     }
 });
 
+
 function readyToDelete(element) {
     element = element.parentNode.parentNode.parentNode;
-    
+
     let pos = element.id;
     deleteReadySnipId = pos;
 }
@@ -45,13 +46,13 @@ function readyToDelete(element) {
 function readyToEdit(element) {
     element = element.parentNode.parentNode.parentNode;
 
-
     editReadySnip = {
         id: element.id,
         title: element.firstChild.innerHTML,
         language: element.firstChild.nextSibling.innerHTML,
-        code: element.firstChild.nextSibling.nextSibling.innerHTML
+        code: element.firstChild.nextSibling.nextSibling.innerText
     };
+
 
     modalTitle = document.getElementById("title");
     modalLanguage = document.getElementById("language");
@@ -64,11 +65,12 @@ function readyToEdit(element) {
 
 function editSnip() {
     const snip = {
-        "id":editReadySnip.id,
+        "id": editReadySnip.id,
         "title": modalTitle.value,
         "language": modalLanguage.value,
         "code": modalCode.getValue()
     };
+
     ipcRenderer.send('new-snip-add', JSON.stringify(snip))
 }
 

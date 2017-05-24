@@ -17,41 +17,40 @@
 <body>
 
 
-
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" onclick='closeWin()'class="close" data-dismiss="modal" aria-hidden="true"><span
-                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-            <h4 class="modal-title custom_align" id="Heading">New Snip</h4>
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" onclick='closeWin()' class="close" data-dismiss="modal" aria-hidden="true"><span
+                class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading">New Snip</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <input id="title" class="form-control " type="text" placeholder="title">
         </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <input id="title" class="form-control " type="text" placeholder="title">
-            </div>
-            <div class="form-group">
-                <input id="language" class="form-control " type="text" placeholder="language">
-            </div>
-            <div class="form-group">
-                    <div id="editor" rows="2" class="form-control"></div>
-
-
-            </div>
+        <div class="form-group">
+            <input id="language" class="form-control " type="text" placeholder="language">
         </div>
-        <div class="modal-footer ">
-            <button onclick="newSnip()" data-dismiss="modal" type="button" class="btn btn-warning btn-lg"
-                    style="width: 100%;"><span
-                    class="glyphicon glyphicon-ok-sign"></span> Save
-            </button>
+        <div class="form-group">
+            <div id="editor" rows="2" class="form-control"></div>
+
+
         </div>
     </div>
+    <div class="modal-footer ">
+        <button onclick="newSnip()" data-dismiss="modal" type="button" class="btn btn-warning btn-lg"
+                style="width: 100%;"><span
+                class="glyphicon glyphicon-ok-sign"></span> Save
+        </button>
+    </div>
+</div>
 
 
 <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="snip.js"></script>
+<script src="snip.js"></script>
 <script>
-const editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
-editor.getSession().setMode("ace/mode/javascript");
+    const editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
 </script>
 
 </body>

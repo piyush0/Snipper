@@ -32,7 +32,6 @@ app.on('ready', function () {
 function registerShortcut() {
     const ret = globalShortcut.register('CommandOrControl+N', () => {
         console.log('CommandOrControl+N is pressed')
-        //TODO: New snip
         newSnip();
     });
 
@@ -47,7 +46,7 @@ function registerShortcut() {
 
 function newSnip() {
     snipWindow = new BrowserWindow({
-        height: 332,
+        height: 320,
         width: 600,
         frame: false
     });
