@@ -35,12 +35,22 @@ ipcRenderer.on('all-snips', function (event, data) {
             '<td> <p data-placement="top" ' +
             'data-toggle="tooltip" title="Edit"> ' +
             '<button onclick="readyToEdit(this)" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>' +
-            ' </p> </td> <td> <p data-placement="top" data-toggle="tooltip" title="Delete"> ' +
+            ' </p> </td> ' +
+            '<td> <p data-placement="top" data-toggle="tooltip" title="Delete"> ' +
             '<button onclick="readyToDelete(this)" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"data-target="#delete">' +
             '<span class="glyphicon glyphicon-trash"></span></button> </p> </td>' +
+            '<td> <p data-placement="top" ' +
+            '<button onclick="copyToClip(this)" class="btn btn-primary btn-xs" data-title="Copy"><span class="glyphicon glyphicon-copy"></span></button>' +
+            ' </p> </td> ' +
             "</tr>"
     }
 });
+
+function copyToClip(element) {
+    element = element.parentNode.parentNode;
+    let code = codes[element.firstChild.nextSibling.nextSibling.id];
+    ipcRenderer.send('copy-to-clip', code);
+}
 
 
 function readyToDelete(element) {

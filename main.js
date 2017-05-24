@@ -1,6 +1,6 @@
 'use strict';
 
-const {app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
+const {app, BrowserWindow, ipcMain, globalShortcut, clipboard} = require('electron');
 
 const path = require('path');
 const url = require('url');
@@ -13,7 +13,7 @@ app.on('ready', function () {
     const screen = require('electron').screen;
     registerShortcut();
     const {width, height} = screen.getPrimaryDisplay().workAreaSize
-    mainWindow = new BrowserWindow({width,height});
+    mainWindow = new BrowserWindow({width, height});
 
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'public_static', 'index.html'),
@@ -28,7 +28,6 @@ app.on('ready', function () {
 
 function registerShortcut() {
     const ret = globalShortcut.register('CommandOrControl+N', () => {
-        console.log('CommandOrControl+N is pressed')
         newSnip();
     });
 
@@ -54,7 +53,7 @@ function newSnip() {
         protocol: 'file:',
         slashes: true
     }));
-    snipWindow.webContents.openDevTools();
+
 }
 
 
@@ -93,9 +92,9 @@ ipcMain.on('edit-snip', function (event, arg) {
 });
 
 ipcMain.on('close-snip-win', function (event, arg) {
-   if(snipWindow){
-       snipWindow.close();
-   }
+    if (snipWindow) {
+        snipWindow.close();
+    }
 });
 
 ipcMain.on('new-snip-add', function (event, arg) {
@@ -121,6 +120,10 @@ ipcMain.on('new-snip-add', function (event, arg) {
     }
 });
 
+ipcMain.on('copy-to-clip', function (event, code) {
+
+    clipboard.writeText(code);
+})
 
 module.exports = {sendAllSnips, newSnip}
 
