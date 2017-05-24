@@ -31,8 +31,6 @@ ipcRenderer.on('all-snips', function (event, data) {
             ' </p> </td> <td> <p data-placement="top" data-toggle="tooltip" title="Delete"> ' +
             '<button onclick="readyToDelete(this)" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"data-target="#delete">' +
             '<span class="glyphicon glyphicon-trash"></span></button> </p> </td>' +
-            // "<td>" + "<button onclick='deleteSnip(this)' class='btn btn-danger'>" + "Delete" + "</button>" +
-            // "<button onclick='editSnip(this)' class='btn btn-primary'>" + "Edit" + "</button>" + "</td>" +
             "</tr>"
     }
 });
@@ -57,11 +55,11 @@ function readyToEdit(element) {
 
     modalTitle = document.getElementById("title");
     modalLanguage = document.getElementById("language");
-    modalCode = document.getElementById("code");
+    modalCode = ace.edit("editor");
 
     modalTitle.setAttribute("value", editReadySnip.title);
     modalLanguage.setAttribute("value", editReadySnip.language);
-    modalCode.innerHTML = editReadySnip.code;
+    modalCode.setValue(editReadySnip.code);
 }
 
 function editSnip() {
@@ -69,7 +67,7 @@ function editSnip() {
         "id":editReadySnip.id,
         "title": modalTitle.value,
         "language": modalLanguage.value,
-        "code": modalCode.value
+        "code": modalCode.getValue()
     };
     ipcRenderer.send('new-snip-add', JSON.stringify(snip))
 }

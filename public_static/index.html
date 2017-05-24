@@ -10,7 +10,6 @@
     <script src="jquery-3.2.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script>if (window.module) module = window.module;</script>
-    <script src="index.js"></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
@@ -93,8 +92,7 @@
                     <input id="language" class="form-control " type="text" >
                 </div>
                 <div  class="form-group">
-                    <textarea id="code" rows="2" class="form-control"
-                              placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
+                    <div id="editor" rows="2" class="form-control"></div>
 
 
                 </div>
@@ -138,6 +136,14 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="index.js"></script>
+<script>
+    const editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
+</script>
 
 </body>
 </html>
