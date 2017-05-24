@@ -1,6 +1,6 @@
 'use strict';
 
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
 
 const path = require('path');
 const url = require('url');
@@ -11,6 +11,9 @@ let snipWindow = null;
 let editReadySnip = null;
 
 app.on('ready', function () {
+
+    registerShortcut();
+
 
     mainWindow = new BrowserWindow({
         height: 600,
@@ -23,24 +26,44 @@ app.on('ready', function () {
         slashes: true
     }));
 
+    mainWindow.webContents.openDevTools()
+
     require('./menu')
 });
 
-
-function createNewSnipWindow(snip) {
-    snipWindow = new BrowserWindow({
-        height: 600,
-        width: 800
+function registerShortcut() {
+    const ret = globalShortcut.register('CommandOrControl+N', () => {
+        console.log('CommandOrControl+N is pressed')
+        //TODO: New snip
     });
 
-    snipWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'public_static', 'snip.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-    snipWindow.webContents.openDevTools();
+    if (!ret) {
+        console.log('registration failed')
+    }
+
+    // Check whether a shortcut is registered.
+    console.log(globalShortcut.isRegistered('CommandOrControl+N'))
+
+}
+
+
+function editSnip(snip) {
+    // snipWindow = new BrowserWindow({
+    //     height: 600,
+    //     width: 800
+    // });
+    //
+    // snipWindow.loadURL(url.format({
+    //     pathname: path.join(__dirname, 'public_static', 'snip.html'),
+    //     protocol: 'file:',
+    //     slashes: true
+    // }));
+    // snipWindow.webContents.openDevTools();
     editReadySnip = snip;
 }
+
+
+
 
 function sendAllSnips() {
     db.allSnips(function (snips) {
@@ -64,7 +87,7 @@ ipcMain.on('get-snips', function () {
 });
 
 ipcMain.on('new-snip', function () {
-    createNewSnipWindow();
+    // TODO;
 });
 
 ipcMain.on('delete-snip', function (event, arg) {
@@ -88,7 +111,7 @@ ipcMain.on('edit-ready', function (event, arg) {
 
 ipcMain.on('edit-snip', function (event, arg) {
     db.findSnip(arg, function (result) {
-        createNewSnipWindow(result)
+        editSnip(result)
     })
 });
 
@@ -103,17 +126,15 @@ ipcMain.on('new-snip-add', function (event, arg) {
             code: snip.code
         }, function () {
             sendAllSnips();
-            snipWindow.close()
         });
     }
     else {
         db.insertSnip(snip, function () {
             sendAllSnips();
-            snipWindow.close();
         })
     }
 });
 
 
-module.exports = {createNewSnipWindow, sendAllSnips}
+module.exports = {editSnip, sendAllSnips}
 

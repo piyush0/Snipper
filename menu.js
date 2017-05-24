@@ -15,7 +15,8 @@ const template = [
             {
                 label: 'New Snip',
                 click (item, focusedWindow) {
-                    main.createNewSnipWindow();
+                    main.editSnip();
+                    // TODO: new
                 }
             }
         ]

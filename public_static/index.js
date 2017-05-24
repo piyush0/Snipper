@@ -4,39 +4,77 @@
 
 const {ipcRenderer} = require('electron');
 
+let deleteReadySnipId = null;
+let editReadySnip = null;
+let modalTitle = null;
+let modalLanguage = null;
+let modalCode = null;
+
 window.onload = function () {
     ipcRenderer.send('get-snips');
-    const btn_add = document.getElementById("btn_add");
-    btn_add.onclick = function () {
-        ipcRenderer.send('new-snip');
-    }
 };
 
 ipcRenderer.on('all-snips', function (event, data) {
-    const table = document.getElementById("table");
+    const table = document.getElementById("tablebody");
 
-    table.innerHTML = "<th>Title</th>  <th>Language</th> <th>Snip</th>"
-
+    table.innerHTML = "";
     for (let i = 0; i < data.length; i++) {
         table.innerHTML += "<tr id=" + data[i].id + ">" +
             "<td>" + data[i].title + "</td>" +
             "<td>" + data[i].language + "</td>" +
             "<td>" + data[i].code + "</td>" +
-            "<td>" + "<button onclick='deleteSnip(this)'>" + "Delete" + "</button>" +
-            "<button onclick='editSnip(this)'>" + "Edit" + "</button>" + "</td>" +
+            '<td> <p data-placement="top" ' +
+            'data-toggle="tooltip" title="Edit"> ' +
+            '<button onclick="readyToEdit(this)" class="btn btn-primary btn-xs" ' +
+            'data-title="Edit"' +
+            ' data-toggle="modal"data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>' +
+            ' </p> </td> <td> <p data-placement="top" data-toggle="tooltip" title="Delete"> ' +
+            '<button onclick="readyToDelete(this)" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"data-target="#delete">' +
+            '<span class="glyphicon glyphicon-trash"></span></button> </p> </td>' +
+            // "<td>" + "<button onclick='deleteSnip(this)' class='btn btn-danger'>" + "Delete" + "</button>" +
+            // "<button onclick='editSnip(this)' class='btn btn-primary'>" + "Edit" + "</button>" + "</td>" +
             "</tr>"
     }
 });
 
-function editSnip(element) {
-    element = element.parentNode.parentNode;
+function readyToDelete(element) {
+    element = element.parentNode.parentNode.parentNode;
+    
     let pos = element.id;
-    ipcRenderer.send('edit-snip', pos);
+    deleteReadySnipId = pos;
 }
 
-function deleteSnip(element) {
-    element = element.parentNode.parentNode;
-    let pos = element.id;
-    ipcRenderer.send('delete-snip', pos);
+function readyToEdit(element) {
+    element = element.parentNode.parentNode.parentNode;
+
+
+    editReadySnip = {
+        id: element.id,
+        title: element.firstChild.innerHTML,
+        language: element.firstChild.nextSibling.innerHTML,
+        code: element.firstChild.nextSibling.nextSibling.innerHTML
+    };
+
+    modalTitle = document.getElementById("title");
+    modalLanguage = document.getElementById("language");
+    modalCode = document.getElementById("code");
+
+    modalTitle.setAttribute("value", editReadySnip.title);
+    modalLanguage.setAttribute("value", editReadySnip.language);
+    modalCode.innerHTML = editReadySnip.code;
+}
+
+function editSnip() {
+    const snip = {
+        "id":editReadySnip.id,
+        "title": modalTitle.value,
+        "language": modalLanguage.value,
+        "code": modalCode.value
+    };
+    ipcRenderer.send('new-snip-add', JSON.stringify(snip))
+}
+
+function deleteSnip() {
+    ipcRenderer.send('delete-snip', deleteReadySnipId);
 }
 

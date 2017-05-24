@@ -16,6 +16,8 @@ MongoClient.connect(dbPath, function (err, db) {
 
     myDb = db;
     console.log("MongoDb connected correctly to server");
+    let snips = myDb.collection('snips');
+
 });
 
 function insertSnip(snip, done) {
