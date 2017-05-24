@@ -10,13 +10,10 @@ let snipWindow = null;
 
 
 app.on('ready', function () {
-
+    const screen = require('electron').screen;
     registerShortcut();
-
-    mainWindow = new BrowserWindow({
-        height: 600,
-        width: 800
-    });
+    const {width, height} = screen.getPrimaryDisplay().workAreaSize
+    mainWindow = new BrowserWindow({width,height});
 
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'public_static', 'index.html'),
@@ -48,7 +45,8 @@ function newSnip() {
     snipWindow = new BrowserWindow({
         height: 320,
         width: 600,
-        frame: false
+        frame: false,
+
     });
 
     snipWindow.loadURL(url.format({
