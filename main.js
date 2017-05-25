@@ -42,7 +42,7 @@ function registerShortcut() {
 
 function newSnip() {
     snipWindow = new BrowserWindow({
-        height: 600,
+        height: 578,
         width: 800,
         frame: false,
 
@@ -53,7 +53,7 @@ function newSnip() {
         protocol: 'file:',
         slashes: true
     }));
-
+    snipWindow.webContents.openDevTools()
 }
 
 
@@ -121,9 +121,8 @@ ipcMain.on('new-snip-add', function (event, arg) {
 });
 
 ipcMain.on('copy-to-clip', function (event, code) {
-
     clipboard.writeText(code);
-})
+});
 
 module.exports = {sendAllSnips, newSnip}
 

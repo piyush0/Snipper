@@ -4,7 +4,7 @@
 
 const {ipcRenderer} = require('electron');
 
-const MAX_DISPLAY_SIZE = 300;
+const MAX_DISPLAY_SIZE = 200;
 
 let deleteReadySnipId = null;
 let editReadySnip = null;
@@ -26,12 +26,13 @@ ipcRenderer.on('all-snips', function (event, data) {
         codes[i] = data[i].code;
         if (data[i].code.length > MAX_DISPLAY_SIZE) {
             data[i].code = data[i].code.substring(0, MAX_DISPLAY_SIZE);
+            data[i].code += "<i> More... </i>"
         }
 
         table.innerHTML += "<tr id=" + data[i].id + ">" +
             "<td>" + data[i].title + "</td>" +
             "<td>" + data[i].language + "</td>" +
-            "<td id=" + i + '>' + data[i].code + "</td>" +
+            "<td id=" + i + '>' + "<pre>" + data[i].code + "</pre>" + "</td>" +
             '<td> <p data-placement="top" ' +
             'data-toggle="tooltip" title="Edit"> ' +
             '<button onclick="readyToEdit(this)" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>' +
@@ -44,7 +45,10 @@ ipcRenderer.on('all-snips', function (event, data) {
             ' </p> </td> ' +
             "</tr>"
     }
+
+
 });
+
 
 function copyToClip(element) {
     element = element.parentNode.parentNode;
