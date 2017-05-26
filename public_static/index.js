@@ -12,6 +12,9 @@ let modalTitle = null;
 let modalLanguage = null;
 let modalCode = null;
 let codes = [];
+let editBlock = '<td> <p data-placement="top" data-toggle="tooltip" title="Edit"><button onclick="readyToEdit(this)" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td> ';
+let deleteBlock = '<td> <p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick="readyToDelete(this)" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button> </p> </td>';
+let copyBlock = '<td> <p data-placement="top"<button onclick="copyToClip(this)" class="btn btn-primary btn-xs" data-title="Copy"><span class="glyphicon glyphicon-copy"></span></button></p> </td> '
 
 window.onload = function () {
     ipcRenderer.send('get-snips');
@@ -32,21 +35,8 @@ ipcRenderer.on('all-snips', function (event, data) {
         table.innerHTML += "<tr id=" + data[i].id + ">" +
             "<td>" + data[i].title + "</td>" +
             "<td>" + data[i].language + "</td>" +
-            "<td id=" + i + '>' + "<pre>" + data[i].code + "</pre>" + "</td>" +
-            '<td> <p data-placement="top" ' +
-            'data-toggle="tooltip" title="Edit"> ' +
-            '<button onclick="readyToEdit(this)" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>' +
-            ' </p> </td> ' +
-            '<td> <p data-placement="top" data-toggle="tooltip" title="Delete"> ' +
-            '<button onclick="readyToDelete(this)" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"data-target="#delete">' +
-            '<span class="glyphicon glyphicon-trash"></span></button> </p> </td>' +
-            '<td> <p data-placement="top" ' +
-            '<button onclick="copyToClip(this)" class="btn btn-primary btn-xs" data-title="Copy"><span class="glyphicon glyphicon-copy"></span></button>' +
-            ' </p> </td> ' +
-            "</tr>"
+            "<td id=" + i + '>' + "<pre>" + data[i].code + "</pre>" + "</td>" + editBlock + deleteBlock + copyBlock + "</tr>"
     }
-
-
 });
 
 
@@ -59,9 +49,7 @@ function copyToClip(element) {
 
 function readyToDelete(element) {
     element = element.parentNode.parentNode.parentNode;
-
-    let pos = element.id;
-    deleteReadySnipId = pos;
+    deleteReadySnipId = element.id;
 }
 
 function readyToEdit(element) {
@@ -99,3 +87,6 @@ function deleteSnip() {
     ipcRenderer.send('delete-snip', deleteReadySnipId);
 }
 
+function newSnip() {
+    ipcRenderer.send('new-snip');
+}

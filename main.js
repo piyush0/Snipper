@@ -21,7 +21,7 @@ app.on('ready', function () {
         slashes: true
     }));
 
-    mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools();
 
     require('./menu')
 });
@@ -73,6 +73,10 @@ function sendAllSnips() {
 }
 
 /* IPC's */
+
+ipcMain.on('new-snip', function (event, arg) {
+   newSnip();
+});
 
 ipcMain.on('get-snips', function () {
     sendAllSnips()

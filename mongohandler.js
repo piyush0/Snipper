@@ -38,7 +38,7 @@ function findSnip(snipId, done) {
 function allSnips(done) {
     let snips = myDb.collection('snips');
 
-    snips.find({}).toArray(function (err, result) {
+    snips.find({}).sort({"language" : 1}).toArray(function (err, result) {
         done(result)
     })
 }
