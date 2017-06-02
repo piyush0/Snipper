@@ -35,3 +35,13 @@ npm start
 + Nodejs
 + Mongo DB
 + Ace Editor for Syntax Highlighting 
+
+## TODO
+
+- [ ] Add a sort by functionality so that snippets can be sorted on the basis of language, title or date.
+
+- [ ] Creating installation packages for Windows, Mac and Linux
+
+- [ ] Optimise ace and bootstrap packages to reduce size
+
+- [ ] UI improvements
