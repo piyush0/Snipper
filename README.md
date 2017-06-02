@@ -2,22 +2,28 @@
 
 This is a simple desktop app that lets you save your most frequently used Code Snippets with syntax highlighting.
 
+## How to install
+```
+git clone https://github.com/piyush0/Snipper
+
+cd Snipper
+
+npm install
+```
+Install mongodb if you haven't already, For mac : ``` brew install mongodb ```
+
+Setup Mongodb
+```
+mkdir db
+
+mongod --dbpath="./db"
+
+```
 ## How to run
-<code> git clone https://github.com/piyush0/Snipper</code>
-<br>
-<code> cd Snipper </code>
-<br>
-<code> npm install </code>
-<br>
 
-Install mongodb if you haven't already, For mac : <code> brew install mongodb </code>
-<br>
-<code> mkdir db </code>
-<br>
-<code> mongod --dbpath="./db" </code>
-<br>
-<code> npm start </code>
-
+```
+npm start
+```
 ## Technologies involved
 
 + Electron
