@@ -21,6 +21,8 @@ app.on('ready', function () {
         slashes: true
     }));
 
+    // mainWindow.webContents.openDevTools()
+
     require('./menu')
 });
 
@@ -124,6 +126,12 @@ ipcMain.on('new-snip-add', function (event, arg) {
 ipcMain.on('copy-to-clip', function (event, code) {
     clipboard.writeText(code);
 });
+
+ipcMain.on('search-snip', function (event, arg) {
+    db.searchSnip(arg,function (result) {
+        mainWindow.webContents.send('all-snips', result);
+    })
+})
 
 module.exports = {sendAllSnips, newSnip}
 

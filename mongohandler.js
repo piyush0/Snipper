@@ -26,6 +26,16 @@ function insertSnip(snip, done) {
     })
 }
 
+function searchSnip(title, done) {
+    let snips = myDb.collection('snips');
+    snips.find({
+        "title": {$regex: ".*" + title + ".*"}
+    }).toArray(
+        function (err, result) {
+            done(result);
+        })
+}
+
 function findSnip(snipId, done) {
     let snips = myDb.collection('snips');
     snips.findOne({
@@ -38,7 +48,7 @@ function findSnip(snipId, done) {
 function allSnips(done) {
     let snips = myDb.collection('snips');
 
-    snips.find({}).sort({"language" : 1}).toArray(function (err, result) {
+    snips.find({}).sort({"language": 1}).toArray(function (err, result) {
         done(result)
     })
 }
@@ -67,5 +77,5 @@ function deleteSnip(snipId, done) {
 }
 
 module.exports = {
-    insertSnip, findSnip, allSnips, updateSnip, deleteSnip
+    insertSnip, findSnip, allSnips, updateSnip, deleteSnip, searchSnip
 };

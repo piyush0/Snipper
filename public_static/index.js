@@ -22,7 +22,8 @@ window.onload = function () {
 
 ipcRenderer.on('all-snips', function (event, data) {
     const table = document.getElementById("tablebody");
-
+    const searchBox = document.getElementById("srch-term");
+    searchBox.oninput = search
     table.innerHTML = "";
 
     for (let i = 0; i < data.length; i++) {
@@ -39,6 +40,9 @@ ipcRenderer.on('all-snips', function (event, data) {
     }
 });
 
+function search(event) {
+    ipcRenderer.send('search-snip', event.srcElement.value);
+}
 
 function copyToClip(element) {
     element = element.parentNode.parentNode;
