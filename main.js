@@ -21,8 +21,6 @@ app.on('ready', function () {
         slashes: true
     }));
 
-    mainWindow.webContents.openDevTools();
-
     require('./menu')
 });
 
@@ -53,7 +51,6 @@ function newSnip() {
         protocol: 'file:',
         slashes: true
     }));
-    snipWindow.webContents.openDevTools()
 }
 
 
