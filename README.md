@@ -2,6 +2,11 @@
 
 This is a simple desktop app that lets you save your most frequently used Code Snippets with syntax highlighting.
 
+## Screenshots
+![](./screenshots/Screen%20Shot%202017-06-02%20at%206.07.20%20PM.png)
+![](./screenshots/Screen%20Shot%202017-06-02%20at%206.07.34%20PM.png)
+
+
 ## How to install
 ```
 git clone https://github.com/piyush0/Snipper
