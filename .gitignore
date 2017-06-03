@@ -7,3 +7,4 @@ node_modules
 *.out
 secrets.json
 db
+/snips.db
