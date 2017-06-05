@@ -2,7 +2,9 @@
  * Created by piyush0 on 03/06/17.
  */
 const Datastore = require('nedb');
-const snips = new Datastore({filename: 'snips.db', autoload: true});
+const {app} = require('electron');
+const userData = app.getAppPath('userData').replace('/app.asar', '');
+const snips = new Datastore({ filename: userData+'/db/snips.db', autoload: true });
 
 function insertSnip(snip, done) {
     snips.insert(snip, function (err, result) {
@@ -13,7 +15,7 @@ function insertSnip(snip, done) {
 function searchSnip(title, done) {
 
     snips.find({
-        // db.users.findOne({"username" : /.*son.*/i});
+
         "title": new RegExp(title)
     }).sort({"language": 1}).exec(
         function (err, result) {
