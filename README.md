@@ -15,15 +15,6 @@ cd Snipper
 
 npm install
 ```
-Install mongodb if you haven't already, For mac : ``` brew install mongodb ```
-
-Setup Mongodb
-```
-mkdir db
-
-mongod --dbpath="./db"
-
-```
 ## How to run
 
 ```
@@ -33,7 +24,7 @@ npm start
 
 + Electron
 + Nodejs
-+ Mongo DB
++ NeDB
 + Ace Editor for Syntax Highlighting 
 
 ## TODO
