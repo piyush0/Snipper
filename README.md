@@ -7,6 +7,17 @@ This is a simple desktop app that lets you save your most frequently used Code S
 ![](./screenshots/Screen%20Shot%202017-06-03%20at%201.05.06%20AM.png)
 
 
+
+## Update npm and node
+```
+sudo npm install -g n
+sudo n stable
+npm uninstall
+npm install
+npm install electron --save-dev
+
+```
+
 ## How to install
 ```
 git clone https://github.com/piyush0/Snipper
@@ -36,5 +47,3 @@ npm start
 - [ ] Optimise ace and bootstrap packages to reduce size
 
 - [ ] UI improvements
-
-// update npm and node // TODO
